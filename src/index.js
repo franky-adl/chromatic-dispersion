@@ -41,6 +41,11 @@ const uniforms = {
   uRefractPower: {
     value: 0.2,
   },
+  uShininess: { value: 40.0 },
+  uDiffuseness: { value: 0.2 },
+  uLight: {
+    value: new THREE.Vector3(-1.0, 1.0, 1.0),
+  },
 }
 
 
@@ -104,14 +109,15 @@ let app = {
     }
     // create the refractive mesh
     uniforms.uTexture.value = this.envFbo.texture
-    meshGeo = new THREE.IcosahedronGeometry(2.84, 20)
+    meshGeo = new THREE.TorusGeometry(2, 1, 32, 100)
     meshMat = new THREE.ShaderMaterial({
       uniforms: uniforms,
       vertexShader: vertexShader,
-      fragmentShader: fragmentShader
+      fragmentShader: fragmentShader,
+      vertexColors: true
     })
     this.mesh = new THREE.Mesh(meshGeo, meshMat)
-    this.mesh.position.set(0,0,-2)
+    this.mesh.position.set(0,0,-3)
     scene.add(this.mesh)
     await updateLoadingProgressBar(0.5)
 
