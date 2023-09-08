@@ -98,8 +98,8 @@ let app = {
     scene.add(light)
 
     // create scene backdrop
-    ballGeo = new THREE.IcosahedronGeometry(0.5, 8)
-    ballMat = new THREE.MeshStandardMaterial({color: new THREE.Color(0xffffff)})
+    let ballGeo = new THREE.IcosahedronGeometry(0.5, 8)
+    let ballMat = new THREE.MeshStandardMaterial({color: new THREE.Color(0xffffff)})
     for (let i = -7.5; i <= 7.5; i += 2.5) {
       for (let j = -7.5; j <= 7.5; j += 2.5) {
         let ballMesh = new THREE.Mesh(ballGeo, ballMat)
@@ -110,8 +110,8 @@ let app = {
 
     // create the refractive mesh
     uniforms.uTexture.value = this.envFbo.texture
-    meshGeo = new THREE.TorusGeometry(2.5, 1.2, 48, 144)
-    meshMat = new THREE.ShaderMaterial({
+    let meshGeo = new THREE.TorusGeometry(2.5, 1.2, 48, 144)
+    let meshMat = new THREE.ShaderMaterial({
       uniforms: uniforms,
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
