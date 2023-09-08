@@ -42,8 +42,8 @@ const uniforms = {
     value: 0.2,
   },
   uShininess: { value: 40.0 },
-  uDiffuseness: { value: 0.2 },
-  uLight: {
+  uDiffuseness: { value: 0.05 },
+  uDirLight: { // reference point of the sun relative to origin in world space
     value: new THREE.Vector3(-1.0, 1.0, 1.0),
   },
 }
@@ -69,7 +69,7 @@ let renderer = createRenderer({ antialias: true }, (_renderer) => {
 
 // Create the camera
 // Pass in fov, near, far and camera position respectively
-let camera = createCamera(50, 1, 1000, { x: 0, y: 0, z: 6 })
+let camera = createCamera(50, 1, 1000, { x: 0, y: 0, z: 10 })
 
 
 /**************************************************
@@ -107,9 +107,10 @@ let app = {
         scene.add(ballMesh)
       }
     }
+
     // create the refractive mesh
     uniforms.uTexture.value = this.envFbo.texture
-    meshGeo = new THREE.TorusGeometry(2, 1, 32, 100)
+    meshGeo = new THREE.TorusGeometry(2.5, 1.2, 48, 144)
     meshMat = new THREE.ShaderMaterial({
       uniforms: uniforms,
       vertexShader: vertexShader,
@@ -117,7 +118,7 @@ let app = {
       vertexColors: true
     })
     this.mesh = new THREE.Mesh(meshGeo, meshMat)
-    this.mesh.position.set(0,0,-3)
+    this.mesh.position.set(0,0,-1.5)
     scene.add(this.mesh)
     await updateLoadingProgressBar(0.5)
 
@@ -154,6 +155,7 @@ let app = {
     this.mesh.material.uniforms.uIorR.value = params.iorR
     this.mesh.material.uniforms.uIorG.value = params.iorG
     this.mesh.material.uniforms.uIorB.value = params.iorB
+    this.mesh.rotation.y += interval * 0.5
     
     renderer.render(scene, camera)
   },
